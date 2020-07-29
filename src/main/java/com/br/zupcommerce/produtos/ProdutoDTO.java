@@ -5,18 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
-@Table(schema = "ezup", name = "produtos")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Produto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class ProdutoDTO {
     private String sku;
     private String descricao;
     private float preco;
