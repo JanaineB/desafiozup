@@ -6,7 +6,8 @@ import java.util.List;
 
 @Service
 public class PedidosService {
+
     public List<String> getPedidos(){
-        return List.of("sofá","cama", "geladeira");
+        return List.of("a");
     }
 }
