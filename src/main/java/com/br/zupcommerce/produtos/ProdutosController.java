@@ -1,10 +1,9 @@
 package com.br.zupcommerce.produtos;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,8 +24,21 @@ public class ProdutosController {
     }
 
     @PostMapping
-    public Produto postProduto(ProdutoDTO produto) {
-        log.info("Creating new Produto: " + produto.toString());
-        return produtosServices.postProduto(produto);
+    public Produto createProduto(ProdutoDTO produtoDTO) {
+        log.info("Creating new Produto: " + produtoDTO.toString());
+        return produtosServices.createProduto(produtoDTO);
+    }
+
+    @PutMapping
+    public Produto updateProduto(ProdutoDTO produtoDTO) {
+        log.info("Updating produto:" + produtoDTO.toString());
+        return produtosServices.updateProduto(produtoDTO);
+    }
+
+    @DeleteMapping("/{sku}")
+    public ResponseEntity<String> deleteProduto(@PathVariable String sku) {
+        produtosServices.deleteProduto(sku);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Deleted SKU: " + sku);
     }
 }

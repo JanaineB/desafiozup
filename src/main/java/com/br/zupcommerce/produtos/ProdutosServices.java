@@ -17,9 +17,10 @@ public class ProdutosServices {
         return produtoRepository.findAll();
     }
 
-    public Produto postProduto(ProdutoDTO produtoDTO) {
+    public Produto createProduto(ProdutoDTO produtoDTO) {
         validateProduto(produtoDTO);
-        validateSKU(produtoDTO.getSku());
+        validateIfSKUAlreadyExists(produtoDTO.getSku());
+
         Produto produto = Produto.builder()
                 .sku(produtoDTO.getSku())
                 .descricao(produtoDTO.getDescricao())
@@ -34,28 +35,61 @@ public class ProdutosServices {
         return produtoRepository.save(produto);
     }
 
+    public Produto updateProduto(ProdutoDTO produtoDTO) {
+        validateProduto(produtoDTO);
+        Produto produto = validateSKUAndReturnProduto(produtoDTO.getSku());
+
+        Produto produtoToUpdate = Produto.builder()
+                .id(produto.getId())
+                .sku(produtoDTO.getSku())
+                .descricao(produtoDTO.getDescricao())
+                .preco(produtoDTO.getPreco())
+                .altura(produtoDTO.getAltura())
+                .largura(produtoDTO.getLargura())
+                .profundidade(produtoDTO.getProfundidade())
+                .peso(produtoDTO.getPeso())
+                .fabricante(produtoDTO.getFabricante())
+                .build();
+
+        return produtoRepository.save(produtoToUpdate);
+    }
+
+    //Em um cenário real eu optaria pela deleção lógica
+    public void deleteProduto(String sku) {
+        Produto produto = validateSKUAndReturnProduto(sku);
+
+        produtoRepository.deleteById(produto.getId());
+    }
+
     public void validateProduto(ProdutoDTO produtoDTO) {
         if (produtoDTO.getSku() == null) {
-            throw new ProdutoInvalidoException("SKU is required");
+            throw new InvalidProdutoException("SKU is required");
         }
         if (produtoDTO.getDescricao() == null) {
-            throw new ProdutoInvalidoException("Descrição is required");
+            throw new InvalidProdutoException("Descrição is required");
         }
         if (produtoDTO.getSku().trim().isEmpty()) {
-            throw new ProdutoInvalidoException("Empty SKU");
+            throw new InvalidProdutoException("Empty SKU");
         }
         if (produtoDTO.getDescricao().trim().isEmpty()) {
-            throw new ProdutoInvalidoException("Empty Descrição");
+            throw new InvalidProdutoException("Empty Descrição");
         }
         if (produtoDTO.getPreco() < 0) {
-            throw new ProdutoInvalidoException("Preço invalido");
+            throw new InvalidProdutoException("Invalid Preço");
         }
     }
 
-    public void validateSKU(String SKU) {
-        Optional<Produto> produto = produtoRepository.findBySku(SKU);
-        if(produto.isPresent()){
-            throw new ProdutoInvalidoException("SKU Already Exists");
+    public void validateIfSKUAlreadyExists(String sku) {
+        Optional<Produto> produto = produtoRepository.findBySku(sku);
+
+        if (produto.isPresent()) {
+            throw new InvalidProdutoException("SKU already exists");
         }
+    }
+
+    public Produto validateSKUAndReturnProduto(String sku) {
+        Optional<Produto> produto = produtoRepository.findBySku(sku);
+
+        return produto.orElseThrow(() -> new InvalidProdutoException("SKU does not exists"));
     }
 }

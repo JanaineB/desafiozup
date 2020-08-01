@@ -29,3 +29,12 @@ CREATE TABLE IF NOT EXISTS ezup.pedidos_produtos(
    CONSTRAINT FK_PEDIDOS FOREIGN KEY (ID) REFERENCES ezup.produtos(ID),
    CONSTRAINT FK_PRODUTOS FOREIGN KEY (ID) REFERENCES ezup.pedidos(ID)
 );
+
+Insert into ezup.produtos(sku, descricao, preco, peso, altura, largura, profundidade, fabricante)
+values ('SOFCAMBR1', 'SOFÁ-CAMA', 3977.00, 10, 1.05, 2.50, 1.15,'Casa Verde');
+Insert into ezup.produtos(sku, descricao, preco, peso, altura, largura, profundidade, fabricante)
+values ('SOFCAMBR2', 'SOFÁ', 2890.00, 10, 1.05, 2.50, 1.15,'Casa Amarela');
+Insert into ezup.produtos(sku, descricao, preco, peso, altura, largura, profundidade, fabricante)
+values ('SOFCAMBR3', 'SOFÁ-CAMAverde', 1500.00, 10, 1.05, 1.60, 1.15,'Casa Campinas');
+Insert into ezup.produtos(sku, descricao, preco, peso, altura, largura, profundidade, fabricante)
+values ('SOFCAMBR4', 'SOFÁ-CAMAazul', 3000.00, 10, 1.05, 2.50, 1.15,'Casa Azul');
