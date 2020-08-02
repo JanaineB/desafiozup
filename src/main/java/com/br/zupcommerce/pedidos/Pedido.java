@@ -21,13 +21,14 @@ public class Pedido {
     private long id;
     private String nomeCliente;
     private  String telefone;
-    private float valorProduto;
-    private float valorDesconto;
-    private float valorTotal;
+    private double valorProdutos;
+    private double valorDesconto;
+    private double valorTotal;
     @ManyToMany
     @JoinTable(
+            schema = "ezup",
             name = "pedidos_produtos",
-            joinColumns = @JoinColumn(name = "fk_pedidos"),
-            inverseJoinColumns = @JoinColumn(name = "fk_produtos"))
+            joinColumns = @JoinColumn(name = "PEDIDOS_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUTOS_ID"))
     private Set<Produto> produtos;
 }

@@ -14,8 +14,6 @@ import java.util.List;
 public class PedidoDTO {
     private String nomeCliente;
     private String telefone;
-    private float valorProduto;
-    private float valorDesconto;
-    private float valorTotal;
+    private double valorDesconto;
     private List<String> SKU;
 }
