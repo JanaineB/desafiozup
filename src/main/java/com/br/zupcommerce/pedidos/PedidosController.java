@@ -24,16 +24,19 @@ public class PedidosController {
 
     @PostMapping
     public Pedido createPedido(PedidoDTO pedidoDTO) {
+        log.info("Creating new Pedido: " + pedidoDTO.toString());
         return pedidosService.createPedidos(pedidoDTO);
     }
 
     @PutMapping ("/{id}")
     public Pedido updatePedido(@PathVariable long id, PedidoDTO pedidoDTO) {
+        log.info("Updating Pedido: " + pedidoDTO.toString());
         return pedidosService.updatePedido(id, pedidoDTO);
     }
 
     @DeleteMapping ("/{id}")
     public ResponseEntity<String> deletePedido(@PathVariable long id) {
+        log.info("Deleting pedido: " + id);
         pedidosService.deletePedido(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Deleted Pedido: " + id);
